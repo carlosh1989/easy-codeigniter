@@ -97,6 +97,24 @@
 			-w hara que stylus este mirando que archivos cambiar dentro de esa carpeta, las copilara 
 			y las enviara con extensión .css a la carpeta salida/.
 		</p>
+
+		<p>
+			Luego de eso en el controlador creado automaticamente en este caso seria "personal", adentro tendra que crear una nueva función
+			con los siguientes parametros:
+		</p>
+		<code>
+			    public function login_ver() <br>
+			    {<br>
+			    &nbsp;&nbsp;	$this->recursos->theme('personal','login','ver',''); <br>
+			    }
+		</code>
+		<p>
+			En la función creada el nombre de la función sera el de su preferencia pero para mejor funcionamiento
+			deberia ser el nombre de la "sección" y el nombre de la vista a mostrar en este caso "ver" juntas con un guion bajo, 
+			para cargar la vista se hace uso de el controlador recursos el cual llama a la funcion "theme" en el cual tendra que llevar los siguientes parametros
+			, el primero nombre del controlador "personal", el nombre de la sección "login" y el nombre de la vista "ver", el cuarto parametro se deja con comillas simple, pero
+			se puede cambiar por y poner la variable de arreglo para pasar datos a la vista ejemplo "$data" el cual seria algo asi "$data['titulo']='eso es un titulo';".
+		</p>
 	</div>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
