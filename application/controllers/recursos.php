@@ -62,7 +62,7 @@ class Recursos extends CI_Controller {
 	$vista_php = './application/views/'.$perfil.'/'.$funcion.'/'.$vista.'.php';
 	$public_function = $perfil.'/'.$funcion.'/'.$vista;
 
-	//CARPERTA DE THEME PERFIL
+	//CARPERTA DE THEME PERFIL.
 	if (!file_exists($carpeta_tema) && !is_dir($carpeta_tema)) 
 	{
 	    mkdir($carpeta_tema,0777); 
