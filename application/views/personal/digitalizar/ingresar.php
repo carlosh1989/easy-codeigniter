@@ -1,1 +1,0 @@
- vista digitalizar ingresar
