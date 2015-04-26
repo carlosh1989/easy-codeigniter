@@ -9,6 +9,10 @@ sudo apt-get install toilet
 echo    ""
 echo -e '\E[37;42m'"\033[5m| Toilet instalado |\033[0m" 
 echo    ""
+sudo apt-get install gnome-terminal
+echo    ""
+echo -e '\E[37;42m'"\033[5m| Gnome-terminal instalado |\033[0m" 
+echo    ""
 sudo apt-get install dialog
 echo    ""
 echo -e '\E[37;42m'"\033[5m| Dialog instalado|\033[0m" 

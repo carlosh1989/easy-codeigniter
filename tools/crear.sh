@@ -33,6 +33,10 @@ echo    ""
 echo -e '\E[37;44m'"\033[5m| STYLUS "$3" CREADO |\033[0m" 
 echo    ""
 
+echo -e '\E[37;44m'"\033[5m| JS "$3" CREADO |\033[0m" 
+echo    ""
+
+
 cd assets/css/$1/$2
 
 

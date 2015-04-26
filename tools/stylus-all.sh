@@ -1,0 +1,1 @@
+sudo gnome-terminal --tab -e 'bash -c ./tools/stylus.sh personal' egresados egresados

@@ -25,6 +25,7 @@ class Recursos extends CI_Controller {
 	public function theme($perfil,$funcion,$vista,$data)
 	{
 		$data['estilo'] = $perfil.'/'.$funcion.'/salida/'.$vista;
+		$data['java'] = $perfil.'/'.$funcion.'/'.$vista;
 		$data['bloque'] = $this->load->view(''.$perfil.'/'.$funcion.'/'.$vista.'',$data, TRUE);
 		$this->load->view('theme/'.$perfil.'/estandar',$data);
 	}
@@ -94,7 +95,12 @@ class Recursos extends CI_Controller {
 			fputs($php, "?php echo $");
 			fputs($php, "estilo ?>.css'/>"."\n");
 			fputs($php, "	<script src=");
-			fputs($php, "http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js");
+			fputs($php, "'<?=base_url()?>assets/js/<?");
+			fputs($php, "= $");
+			fputs($php, "java ?>.js'");
+			fputs($php, "></script>"."\n");
+			fputs($php, "	<script src=");
+			fputs($php, "'<?=base_url()?>assets/js/jquery1.8.0.js'");
 			fputs($php, "></script>"."\n");
 			fputs($php, "    <meta charset='UTF-8'");
 			fputs($php, ">"."\n");
@@ -105,19 +111,11 @@ class Recursos extends CI_Controller {
 			fputs($php, ">"."\n");
 			fputs($php, "<body");
 			fputs($php, ">"."\n");
-			fputs($php, "	<header");
-			fputs($php, ">"."\n");
-			fputs($php, "	</header");
-			fputs($php, ">"."\n");
 	    	fputs($php, "		<?");
 	    	fputs($php, "=");
 	    	fputs($php, "$");
 	    	fputs($php, "bloque;");
 	    	fputs($php, "?>"."\n");
-	    	fputs($php, "	<footer");
-			fputs($php, ">"."\n");
-			fputs($php, "	</footer");
-			fputs($php, ">"."\n");
 	    	fputs($php, "</body"); 
 	    	fputs($php, ">"."\n");
 	    	fputs($php, "</html");
@@ -128,8 +126,7 @@ class Recursos extends CI_Controller {
 			//echo "vista ".$vista." de ".$funcion." creada en views..!<META http-equiv='refresh' content='0;'>";
 		}
 
-	
-	//CARPERTA DE PERFIL
+		//CARPERTA DE PERFIL
 		if (!file_exists($carpeta_perfil) && !is_dir($carpeta_perfil)) 
 		{
 	    	mkdir($carpeta_perfil,0777); 
@@ -137,8 +134,7 @@ class Recursos extends CI_Controller {
 			//echo "Carpeta de perfil ".$perfil." creada en views..!<hr>";    
 		}
 
-
-	//CARPETA DE FUNCION
+		//CARPETA DE FUNCION
 		if (!file_exists($carpeta_funcion) && !is_dir($carpeta_funcion)) 
 		{
 	    	mkdir($carpeta_funcion,0777); 
@@ -146,7 +142,7 @@ class Recursos extends CI_Controller {
 			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
 		} 
 
-	//PHP DE VISTA
+		//PHP DE VISTA
 		if (!file_exists($vista_php)) 
 		{
 	    	$php = fopen($vista_php, "a+");
@@ -188,13 +184,14 @@ class Recursos extends CI_Controller {
 			}      
 		} 
 
-		
-		
 		//CARPETA DE CSS PERFIL
 		if (!file_exists($folder_css) && !is_dir($folder_css)) 
 		{
 	    	mkdir($folder_css,0777); 
 			chmod($folder_css, 0777); 
+			$stylus = fopen('./tools/stylus-todo.sh', "a+");
+			fputs($stylus, " ".$perfil."");
+			fclose($stylus);
 			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
 		} 
 
@@ -206,7 +203,6 @@ class Recursos extends CI_Controller {
 			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
 		} 
 
-
 		//ADENTRO DE CSS PERFIL LA CARPETA SALIDA
 		if (!file_exists($folder_salida) && !is_dir($folder_salida)) 
 		{
@@ -215,7 +211,6 @@ class Recursos extends CI_Controller {
 			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
 		} 
 
-		
 		//CSS DE VISTA
 		if (!file_exists($archivo_css)) 
 		{
@@ -224,12 +219,13 @@ class Recursos extends CI_Controller {
 	     	//fputs($css, "@import '../../themes/".$perfil.".styl'");
 			fclose($css);
 			chmod($archivo_css, 0777); 
+			$stylus = fopen('./tools/stylus-all.sh', "a+");
+			fputs($stylus," ".$funcion."");
+			fclose($stylus);
 			//$this->stylus($perfil,$funcion,$vista); 
 			//echo "vista ".$vista." de perfil ".$perfil." creada con exito..!";
 		}
 	
-
-
 		//CARPETA THEME CSS
 		if (!file_exists($carpeta_tema_css) && !is_dir($carpeta_tema_css)) 
 		{
@@ -260,14 +256,69 @@ class Recursos extends CI_Controller {
 		//CSS DE THEME
 		if (!file_exists($archivo_recursos_css)) 
 		{
+			fopen('./assets/css/recursos/letras.styl', "a+");
+			fopen('./assets/css/recursos/colores.styl', "a+");
+			fopen('./assets/css/recursos/formularios.styl', "a+");
 	     	$css = fopen($archivo_recursos_css, "a+");
-	     	fputs($css, "");
-	     	fputs($css, "");
-			fclose($css);
+	     	fputs($css, "@import 'letras.styl'"."\n");
+			fputs($css, "@import 'colores.styl'"."\n");
+			fputs($css, "@import 'formularios.styl'");
 			chmod($archivo_recursos_css, 0777); 
 			//$this->stylus($perfil,$funcion,$vista); 
 			//echo "vista ".$vista." de perfil ".$perfil." creada con exito..!";
 		}
+
+		//CARPETA JS
+		if (!file_exists('./assets/js') && !is_dir('./assets/js')) 
+		{
+	    	mkdir('./assets/js',0777); 
+			chmod('./assets/js',0777); 
+			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";
+
+			//CARPETA DE JS FUNCION
+			if(!file_exists('./assets/js/'.$perfil.'/') && !is_dir('./assets/js/'.$perfil.'/')) 
+			{
+		    	mkdir('./assets/js/'.$perfil.'/',0777); 
+				chmod('./assets/js/'.$perfil.'/', 0777); 
+				//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
+			} 
+
+			//CARPETA DE JS FUNCION
+			if(!file_exists('./assets/js/'.$perfil.'/'.$funcion.'/') && !is_dir('./assets/js/'.$perfil.'/'.$funcion.'/')) 
+			{
+		    	mkdir('./assets/js/'.$perfil.'/'.$funcion.'/',0777); 
+				chmod('./assets/js/'.$perfil.'/'.$funcion.'/', 0777); 
+				//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
+			} 
+
+			//ARCHIVO JS
+			if (!file_exists('./assets/js/'.$perfil.'/'.$funcion.'/'.$vista.'.js')) 
+			{
+		     	$js = fopen('./assets/js/'.$perfil.'/'.$funcion.'/'.$vista.'.js', "a+");
+		     	fputs($js, "");
+				fclose($js);
+				chmod('./assets/js/'.$perfil.'/'.$funcion.'/'.$vista.'.js', 0777); 
+				//$this->stylus($perfil,$funcion,$vista); 
+				//echo "vista ".$vista." de perfil ".$perfil." creada con exito..!";
+			}
+
+		} 
+
+		//CARPETA IMG
+		if (!file_exists('./assets/img') && !is_dir('./assets/img')) 
+		{
+	    	mkdir('./assets/img',0777); 
+			chmod('./assets/img',0777); 
+			//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";
+
+			//CARPETA DE IMG FUNCION
+			if(!file_exists('./assets/img/'.$perfil.'/') && !is_dir('./assets/img/'.$perfil.'/')) 
+			{
+		    	mkdir('./assets/img/'.$perfil.'/',0777); 
+				chmod('./assets/img/'.$perfil.'/', 0777); 
+				//echo "Carpeta de funcion ".$funcion." creada en views..!<hr>";     
+			} 
+		} 
 	
 		$perfil = $perfil;
 		$funcion = $funcion;
@@ -304,14 +355,24 @@ class Recursos extends CI_Controller {
 
 	public function crear_modelo($perfil,$funcion,$vista)
 	{
+		$carpeta_modelo = "./application/models/";
+		$carpeta_modelo_perfil = "./application/models/".$perfil."";
 		$modelo = "./application/models/".$perfil."/".$funcion."_model.php";
-		$carpeta_modelo = "./application/models/".$perfil."";
+
 
 		//CARPERTA DE MODELO
 		if (!file_exists($carpeta_modelo) && !is_dir($carpeta_modelo)) 
 		{
 	    	mkdir($carpeta_modelo,0777); 
 			chmod($carpeta_modelo, 0777);  
+			//echo "Carpeta de perfil ".$perfil." creada en views..!<hr>";    
+		}
+
+		//CARPERTA DE MODELO PERFIL
+		if (!file_exists($carpeta_modelo_perfil) && !is_dir($carpeta_modelo_perfil)) 
+		{
+	    	mkdir($carpeta_modelo_perfil,0777); 
+			chmod($carpeta_modelo_perfil, 0777);  
 			//echo "Carpeta de perfil ".$perfil." creada en views..!<hr>";    
 		}
 
@@ -338,22 +399,5 @@ class Recursos extends CI_Controller {
 			//$this->stylus($perfil,$funcion,$vista); 
 			//echo "vista ".$vista." de perfil ".$perfil." creada con exito..!";
 		}
-		else
-		{
-			
-		}
-	}
-
-	public function stylus($perfil,$funcion,$vista)
-	{
-		system('./script.sh '.$perfil.' '.$funcion.' '.$vista);
-		//echo "hecho";
-		//echo getcwd() . "\n";
-	}
-
-	public function open()
-	{
-		//system('gulp open');
-		echo "hola";
 	}
 }
